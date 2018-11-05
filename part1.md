@@ -19,7 +19,8 @@ Our population will be the exponential distribution and thus has a mean of $1/\l
 ### Running the simulation
 
 We perform 1,000 simulations and, each time, calculate the mean of 40 random samples.
-```{r simu}
+
+```r
 nosim <- 1000
 n <- 40
 lambda <- 0.2
@@ -29,25 +30,59 @@ names(dat) <- "sample_means"
 head(dat)
 ```
 
+```
+##   sample_means
+## 1     4.284896
+## 2     6.127672
+## 3     5.853809
+## 4     5.426770
+## 5     4.526934
+## 6     4.268907
+```
+
 ### What is the sample mean and how does it compare to the theoretical mean?
 
 According to the CLT, the sample means should converge towards a mean of $1/\lambda$. Let us verify this.
-```{r mean}
+
+```r
 sampleMean <- mean(dat$sample_means)
 sampleMean
+```
+
+```
+## [1] 4.998138
+```
+
+```r
 theoreticalMean <- 1/lambda
 theoreticalMean
+```
+
+```
+## [1] 5
 ```
 We see that the sample mean is quite close to the theoretical mean we were expecting.
 
 ### What is the sample variance and how does it compare to the theoretical variance?
 
 According to the CLT, the sample means should converge towards a variance of  $(1/\lambda)^{2}/n$. Let us verify this.
-```{r var}
+
+```r
 sampleVar <- var(dat$sample_means)
 sampleVar
+```
+
+```
+## [1] 0.6462347
+```
+
+```r
 theoreticalVar <- (1/lambda)^2*1/n
 theoreticalVar
+```
+
+```
+## [1] 0.625
 ```
 We see that the sample variance is quite close to the theoretical variance we were expecting.
 
@@ -58,10 +93,13 @@ According to the CLT, we would expect our sample means to be nornally distribute
 * A histogram showing how our sample means are distributed; and
 * The probability density function of the normal distribution with a mean of $1/\lambda$ and a variance of $(1/\lambda)^{2}/n$.
 
-```{r plot mean}
+
+```r
 library(ggplot2)
 g <- ggplot(dat, aes(sample_means)) + geom_histogram(alpha = .20, binwidth=.25, colour = "black", aes(y = ..density..))
 g <- g + stat_function(fun = dnorm, args = list(mean = 1/lambda, sd = (1/lambda)^2*1/n), size = 1.5, colour = "black")
 g <- g + labs(subtitle = "Sample means distribution vs. normal distribution")
 g
 ```
+
+![](part1_files/figure-html/plot mean-1.png)<!-- -->
